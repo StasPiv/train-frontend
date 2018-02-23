@@ -17,7 +17,7 @@ class App extends Component {
         this.newDay = this.newDay.bind(this);
         this.removeRecord = this.removeRecord.bind(this);
 
-        this.apiUrl = "http://127.0.0.1:8000/";
+        this.apiUrl = "http://api.train.pozitiffchess.net/";
     }
 
     componentDidMount() {

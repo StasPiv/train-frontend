@@ -15,7 +15,7 @@ export default class Stat extends Component {
             }
         };
 
-        this.apiUrl = "http://127.0.0.1:8000/";
+        this.apiUrl = "http://api.train.pozitiffchess.net/";
     }
 
     componentDidMount() {

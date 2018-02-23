@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Stat from './Stat';
 import './App.css';
 
 class App extends Component {
@@ -16,7 +17,7 @@ class App extends Component {
         this.newDay = this.newDay.bind(this);
         this.removeRecord = this.removeRecord.bind(this);
 
-        this.apiUrl = "http://api.train.pozitiffchess.net/";
+        this.apiUrl = "http://127.0.0.1:8000/";
     }
 
     componentDidMount() {
@@ -236,30 +237,7 @@ class App extends Component {
               <br/>
               <input disabled={!this.state.isLoaded} id="next-train" onClick={this.nextTrain} type="button" value="NEW TRAIN" />
               <input disabled={!this.state.isLoaded} id="new-day" onClick={this.newDay} type="button" value="NEW DAY" />
-          <table id="last-records">
-              <thead>
-                <tr>
-                    <td>Date</td>
-                    <td>Type</td>
-                    <td>Tr</td>
-                    <td>Ap</td>
-                    <td>Value</td>
-                    <td>X</td>
-                </tr>
-              </thead>
-              <tbody>
-              {
-                  this.state.lastRecords.map(item =>                    <tr>
-                    <td>{item.time}</td>
-                    <td>{item.type.title}</td>
-                    <td>{item.train_number}</td>
-                    <td>{item.approach_number}</td>
-                    <td>{item.value}</td>
-                    <td><a data-record-id={item.id} href="#" onClick={this.removeRecord}>X</a></td>
-                  </tr>)
-              }
-              </tbody>
-          </table>
+              <Stat/>
           </div>
         );
       }

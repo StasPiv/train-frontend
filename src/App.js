@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Stat from './Stat';
 import './App.css';
 
 class App extends Component {
@@ -26,9 +27,9 @@ class App extends Component {
         this.deleteType = this.deleteType.bind(this);
         this.toggleManageTypes = this.toggleManageTypes.bind(this);
 
-        this.apiUrl = "http://api.train.pozitiffchess.net/";
+        // this.apiUrl = "http://api.train.pozitiffchess.net/";
 
-        // this.apiUrl = "http://127.0.0.1:8000/";
+        this.apiUrl = "http://127.0.0.1:8000/";
     }
 
     logout() {
@@ -455,6 +456,11 @@ class App extends Component {
                       <input placeholder="password" name="password" id="password" type="password"/>
                     <button onClick={this.login}>OK</button>
                   </div>
+              }
+              {
+                  this.state.isAuth ?
+                  <Stat/> :
+                  null
               }
           </div>
         );

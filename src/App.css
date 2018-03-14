@@ -23,7 +23,7 @@
   font-size: large;
 }
 
-.App #value {
+.App #value, .App #weight {
   width: 80px;
   height: 40px;
   margin: 10px;

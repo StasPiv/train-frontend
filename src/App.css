@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  font-size: 30px;
 }
 
 .App-logo {
@@ -22,7 +21,9 @@
 .App-intro {
   font-size: large;
 }
-
+.App-date {
+  width: 40px;
+}
 .App #value, .App #weight {
   width: 80px;
   height: 40px;
@@ -30,26 +31,47 @@
   font-size: 40px;
 }
 
+.App #type {
+  width: 300px;
+}
+
 .App #type, .App #new-day, .App #next-approach, .App #next-train {
   margin: 5px;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 .App #summary {
-  margin: 3px 0
+  margin: 3px 0;
 }
 
 .App #last-records {
   font-size: 12px;
   width: 100%;
+  table-layout: fixed;
+}
+
+
+.App #last-records td {
+  word-wrap: break-word;
 }
 
 .App .records {
   font-size: 12px;
+  width: 100%;
 }
 
 .App .records-title {
   font-weight: bold;
+}
+
+.App .records {
+  width: 100%;
+}
+
+.App .type-title {
+  display:block;
+  width:100%;
+  word-break:break-all;
 }
 
 @keyframes App-logo-spin {

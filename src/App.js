@@ -161,6 +161,9 @@ class App extends Component {
             .then(
                 (result) => {
                     console.log('user fetched', result);
+                    if (result.code && result.code === 401) {
+                        return;
+                    }
                     this.setState({
                         isLoaded: true,
                         user: result,
@@ -179,8 +182,10 @@ class App extends Component {
                     this.setState({
                         isLoaded: true,
                         error,
-                        isAuth: false
+                        isAuth: false,
+                        token: null
                     });
+                    document.cookie = "token=" + this.state.token;
                 }
             )
     }
@@ -427,11 +432,9 @@ class App extends Component {
                       <table id="last-records">
                       <thead>
                       <tr>
-                      <td>Date</td>
+                      <td className="App-date">Date</td>
                       <td>Type</td>
                       <td>Tr</td>
-                      <td>Ap</td>
-                      <td>Wght</td>
                       <td>Val</td>
                       <td>X</td>
                       </tr>
@@ -439,12 +442,10 @@ class App extends Component {
                       <tbody>
                   {
                       this.state.lastRecords.map(item =>                    <tr>
-                      <td>{item.time}</td>
+                          <td><span className="App-date">{item.time}</span></td>
                       <td>{item.type ? item.type.title : null}</td>
-                      <td>{item.train_number}</td>
-                      <td>{item.approach_number}</td>
-                      <td>{item.weight}</td>
-                      <td>{item.value}</td>
+                      <td>{item.train_number} / {item.approach_number}</td>
+                      <td>{item.weight} / {item.value}</td>
                       <td><a data-record-id={item.id} href="#" onClick={this.removeRecord}>X</a></td>
                       </tr>)
                   }

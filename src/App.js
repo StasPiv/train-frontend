@@ -27,9 +27,8 @@ class App extends Component {
         this.deleteType = this.deleteType.bind(this);
         this.toggleManageTypes = this.toggleManageTypes.bind(this);
 
-        // this.apiUrl = "http://api.train.pozitiffchess.net/";
-
-        this.apiUrl = "http://127.0.0.1:8000/";
+        this.apiUrl = "http://api.train.pozitiffchess.net/";
+        // this.apiUrl = "http://127.0.0.1:8000/";
     }
 
     logout() {

@@ -16,8 +16,7 @@ export default class Stat extends Component {
             token: this.getCookie('token')
         };
 
-        this.apiUrl = "http://api.train.pozitiffchess.net/";
-        // this.apiUrl = "http://127.0.0.1:8000/";
+        this.apiUrl = process.env.REACT_APP_API_URL;
     }
 
     getCookie(name) {

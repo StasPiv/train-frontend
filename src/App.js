@@ -12,7 +12,8 @@ class App extends Component {
             lastRecords: [],
             isAuth: false,
             token: this.getCookie('token'),
-            showManageTypes: false
+            showManage: false,
+            showStat: false
         }
 
         console.log(this.state);
@@ -25,7 +26,8 @@ class App extends Component {
         this.removeRecord = this.removeRecord.bind(this);
         this.logout = this.logout.bind(this);
         this.deleteType = this.deleteType.bind(this);
-        this.toggleManageTypes = this.toggleManageTypes.bind(this);
+        this.toggleManage = this.toggleManage.bind(this);
+        this.toggleStat = this.toggleStat.bind(this);
 
         this.apiUrl = process.env.REACT_APP_API_URL;
     }
@@ -38,9 +40,15 @@ class App extends Component {
         });
     }
 
-    toggleManageTypes() {
+    toggleManage() {
         this.setState({
-            showManageTypes: !this.state.showManageTypes
+            showManage: !this.state.showManage
+        });
+    }
+
+    toggleStat() {
+        this.setState({
+            showStat: !this.state.showStat
         });
     }
 
@@ -396,11 +404,13 @@ class App extends Component {
             {
                   this.state.isAuth ?
                   <div>
-                      <input type="button" value="logout" onClick={this.logout}/><button onClick={this.toggleManageTypes}>Manage types</button>
+                      <button onClick={this.logout}>logout</button>
+                      <button onClick={this.toggleManage}>Manage</button>
+                      <button onClick={this.toggleStat}>Statistics</button>
                       <br/>
                       <br/>
                       {
-                          this.state.showManageTypes ?
+                          this.state.showManage ?
                           <div>
                               <input type="text" placeholder="new train type" id="train-title" name="train-title" autoComplete="off" />
                               <button onClick={this.newType}>OK</button>
@@ -408,56 +418,66 @@ class App extends Component {
                           </div> :
                           null
                       }
-                      <select id="type">
                       {
-                          this.state.types.map(item => <option value={item.id}>{item.title}</option>)
-                      }
-                      </select>
-                      {
-                          this.state.showManageTypes ?
-                          <input type="button" onClick={this.deleteType} value="Remove"/> :
-                          null
-                      }
-                      <br/>
-                      <p id="summary">Train {this.state.user.current_train}. Approach {this.state.user.current_approach}</p>
-                      <br/>
-                      <input type="number" id="weight" placeholder=""/>
+                          ! this.state.showStat ?
+                              <div>
+                                  <select id="type">
+                                      {
+                                          this.state.types.map(item => <option value={item.id}>{item.title}</option>)
+                                      }
+                                  </select>
+                                  {
+                                      this.state.showManage ?
+                                          <input type="button" onClick={this.deleteType} value="Remove"/> :
+                                          null
+                                  }
+                                  <br/>
+
+                                  <p id="summary">Train {this.state.user.current_train}. Approach {this.state.user.current_approach}</p>
+
+                                  <input type="number" id="weight" placeholder=""/>
                       <input type="number" id="value" placeholder=""/>
                       <input disabled={!this.state.isLoaded} type="button" id="next-approach" onClick={this.nextApproach} value="NEXT" />
                       <br/>
                       <input disabled={!this.state.isLoaded} id="next-train" onClick={this.nextTrain} type="button" value="NEW TRAIN" />
                       <input disabled={!this.state.isLoaded} id="new-day" onClick={this.newDay} type="button" value="NEW DAY" />
-                      <table id="last-records">
+                          <table id="last-records">
                       <thead>
                       <tr>
                       <td className="App-date">Date</td>
                       <td>Type</td>
                       <td>Tr</td>
                       <td>Val</td>
-                      <td>X</td>
+                          {this.state.showManage ? <td>X</td> : null}
                       </tr>
                       </thead>
                       <tbody>
                   {
-                      this.state.lastRecords.map(item =>                    <tr>
-                          <td><span className="App-date">{item.time}</span></td>
+                      this.state.lastRecords.map(item => {
+                      let jsTime = Date.parse(item.time);
+                      let jsDate = new Date(jsTime);
+                      console.log(jsTime, jsDate, jsDate.getFullYear());
+                      return <tr>
+                          <td><span className="App-date">{jsDate.toLocaleString()}</span></td>
                       <td>{item.type ? item.type.title : null}</td>
-                      <td>{item.train_number} / {item.approach_number}</td>
-                      <td>{item.weight} / {item.value}</td>
-                      <td><a data-record-id={item.id} href="#" onClick={this.removeRecord}>X</a></td>
-                      </tr>)
+                      <td>{item.train_number}/{item.approach_number}</td>
+                      <td>{item.weight > 0 ? item.weight + "/" + item.value : item.value}</td>
+                              {this.state.showManage ? <td><a data-record-id={item.id} href="#" onClick={this.removeRecord}>X</a></td> : null}
+                      </tr>
+                      })
                   }
                       </tbody>
-                      </table>
+                          </table>
+                  </div> : null
+                  }
                   </div>:
                   <div>
-                      <input placeholder="login" name="name" id="name" type="text"/>
-                      <input placeholder="password" name="password" id="password" type="password"/>
+                      <input placeholder="login" name="name" id="name" type="text"/><input placeholder="password" name="password" id="password" type="password"/>
                     <button onClick={this.login}>OK</button>
                   </div>
               }
               {
-                  this.state.isAuth ?
+                  this.state.isAuth && this.state.showStat ?
                   <Stat/> :
                   null
               }

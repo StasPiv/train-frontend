@@ -55,55 +55,45 @@ export default class Stat extends Component {
     }
 
     render() {
-        if (!this.state.token || !this.state.stat['today']) {
+        if (!this.state.token || !this.state.stat['last']) {
             return null;
         }
 
         return <div className="records">
-            <span className="records-title">Сегодня</span>: {
-                this.state.stat['today'].map(item => <div>
-                        <div>
-                            <span className="type-title">{item.title} среднее к-во: {item.avg}</span><span className="type-title">{item.title} средний вес: {item.avgWeight}</span>
-                        </div>
-                        <div>
-                            <span className="type-title">{item.title} макс. к-во: {item.max}</span><span className="type-title">{item.title} макс. вес: {item.maxWeight}</span>
-                        </div>
-                    </div>
+            <h2 className="records-title">Рекорды</h2><table>
+            <thead>
+            <tr>
+                <th width={30}>Упражнение</th>
+                <th>Повторения<br/>(макс/мин/ср)</th>
+                <th>Вес<br/>(макс/мин/ср)</th>
+            </tr>
+            </thead><tbody>{
+            this.state.stat['records'].map(item => <tr>
+                    <td>{item.title}</td>
+                    <td>{item.maxValue}/{item.minValue}/{item.avgValue}</td>
+                    <td>{item.maxWeight}/{item.minWeight}/{item.avgWeight}</td>
+                </tr>
+            )
+        }</tbody>
+        </table>
+            <h2 className="records-title">Последние записи</h2><table>
+            <thead>
+                <tr>
+                    <th width={30}>Упражнение</th>
+                    <th>Дней назад</th>
+                    <th>Повторения<br/>(макс/мин/ср)</th>
+                    <th>Вес<br/>(макс/мин/ср)</th>
+                </tr>
+            </thead><tbody>{
+                this.state.stat['last'].map(item => <tr>
+                            <td>{item.title}</td>
+                            <td>{item.interv}</td>
+                            <td>{item.maxValue}/{item.minValue}/{item.avgValue}</td>
+                            <td>{item.maxWeight}/{item.minWeight}/{item.avgWeight}</td>
+                    </tr>
                 )
-            }
-            <span className="records-title">Вчера</span>: {
-                this.state.stat['yesterday'].map(item => <div>
-                        <div>
-                            <span className="type-title">{item.title} среднее к-во: {item.avg}</span><span className="type-title">{item.title} средний вес: {item.avgWeight}</span>
-                        </div>
-                        <div>
-                            <span className="type-title">{item.title} макс. к-во: {item.max}</span><span className="type-title">{item.title} макс. вес: {item.maxWeight}</span>
-                        </div>
-                    </div>
-                )
-            }
-            <span className="records-title">7 дней</span>: {
-                this.state.stat['7days'].map(item => <div>
-                        <div>
-                            <span className="type-title">{item.title} среднее к-во: {item.avg}</span><span className="type-title">{item.title} средний вес: {item.avgWeight}</span>
-                        </div>
-                        <div>
-                            <span className="type-title">{item.title} макс. к-во: {item.max}</span><span className="type-title">{item.title} макс. вес: {item.maxWeight}</span>
-                        </div>
-                    </div>
-                )
-            }
-            <span className="records-title">30 дней</span>: {
-                this.state.stat['30days'].map(item => <div>
-                        <div>
-                            <span className="type-title">{item.title} среднее к-во: {item.avg}</span><span className="type-title">{item.title} средний вес: {item.avgWeight}</span>
-                        </div>
-                        <div>
-                            <span className="type-title">{item.title} макс. к-во: {item.max}</span><span className="type-title">{item.title} макс. вес: {item.maxWeight}</span>
-                        </div>
-                    </div>
-                )
-            }
+        }</tbody>
+            </table>
         </div>
     }
 }

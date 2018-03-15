@@ -22,7 +22,7 @@
   font-size: large;
 }
 .App-date {
-  width: 40px;
+  width: 125px;
 }
 .App #value, .App #weight {
   width: 80px;
@@ -31,23 +31,33 @@
   font-size: 40px;
 }
 
+.App #name, .App #password {
+  width: 100px;
+}
+
 .App #type {
   width: 300px;
 }
 
 .App #type, .App #new-day, .App #next-approach, .App #next-train {
   margin: 5px;
-  font-size: 25px;
+  font-size: 24px;
 }
 
 .App #summary {
   margin: 3px 0;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .App #last-records {
   font-size: 12px;
   width: 100%;
   table-layout: fixed;
+}
+
+.App #last-records thead {
+  font-weight: bold;
 }
 
 
@@ -58,6 +68,7 @@
 .App .records {
   font-size: 12px;
   width: 100%;
+  text-align: left;
 }
 
 .App .records-title {

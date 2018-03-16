@@ -599,7 +599,7 @@ class App extends Component {
                                   {
                                       this.state.showManage ? <div>
                                           <input type="button" onClick={this.deleteType} value="Remove"/>
-                                          <input type="text" id="train-title-rename" placeholder="train type title"/>
+                                          <input type="text" id="train-title-rename" placeholder={document.getElementById("type").options[document.getElementById("type").selectedIndex].text}/>
                                           <button onClick={this.renameType}>Rename</button>
                                       </div>:
                                           null

@@ -80,7 +80,7 @@
 }
 
 .App .train-type-record-select {
-  width: 50px;
+  width: 40px;
   font-size: 10px;
 }
 
@@ -88,6 +88,10 @@
   display:block;
   width:100%;
   word-break:break-all;
+}
+
+.App .record-number {
+  width:15px;
 }
 
 @keyframes App-logo-spin {

@@ -28,6 +28,10 @@ class App extends Component {
         this.deleteType = this.deleteType.bind(this);
         this.renameType = this.renameType.bind(this);
         this.changeTypeForRecord = this.changeTypeForRecord.bind(this);
+        this.changeRecordTrainNumber = this.changeRecordTrainNumber.bind(this);
+        this.changeRecordApproachNumber = this.changeRecordApproachNumber.bind(this);
+        this.changeWeight = this.changeWeight.bind(this);
+        this.changeValue = this.changeValue.bind(this);
         this.toggleManage = this.toggleManage.bind(this);
         this.toggleStat = this.toggleStat.bind(this);
 
@@ -268,6 +272,114 @@ class App extends Component {
             method: 'PATCH',
             body: JSON.stringify({
                 type: e.target.value
+            })
+        }).then(res => res.json())
+            .then(
+                function(result) {
+                    that.fetchLastRecords();
+                },
+                (error) => {
+                    that.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+    }
+
+    changeRecordTrainNumber(e) {
+        let that = this;
+
+        fetch(that.apiUrl + 'records/' + e.target.dataset.recordId,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.state.token
+            },
+            method: 'PATCH',
+            body: JSON.stringify({
+                trainNumber: e.target.value
+            })
+        }).then(res => res.json())
+            .then(
+                function(result) {
+                    that.fetchLastRecords();
+                },
+                (error) => {
+                    that.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+    }
+
+    changeRecordApproachNumber(e) {
+        let that = this;
+
+        fetch(that.apiUrl + 'records/' + e.target.dataset.recordId,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.state.token
+            },
+            method: 'PATCH',
+            body: JSON.stringify({
+                approachNumber: e.target.value
+            })
+        }).then(res => res.json())
+            .then(
+                function(result) {
+                    that.fetchLastRecords();
+                },
+                (error) => {
+                    that.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+    }
+
+    changeWeight(e) {
+        let that = this;
+
+        fetch(that.apiUrl + 'records/' + e.target.dataset.recordId,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.state.token
+            },
+            method: 'PATCH',
+            body: JSON.stringify({
+                weight: e.target.value
+            })
+        }).then(res => res.json())
+            .then(
+                function(result) {
+                    that.fetchLastRecords();
+                },
+                (error) => {
+                    that.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+    }
+
+    changeValue(e) {
+        let that = this;
+
+        fetch(that.apiUrl + 'records/' + e.target.dataset.recordId,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.state.token
+            },
+            method: 'PATCH',
+            body: JSON.stringify({
+                value: e.target.value
             })
         }).then(res => res.json())
             .then(
@@ -531,9 +643,31 @@ class App extends Component {
                               item.type.title :
                               null
                           }</td>
-                      <td>{item.train_number}/{item.approach_number}</td>
-                      <td>{item.weight > 0 ? item.weight + "/" + item.value : item.value}</td>
-                              {this.state.showManage ? <td><a data-record-id={item.id} href="#" onClick={this.removeRecord}>X</a></td> : null}
+                      <td>
+                          {
+                              this.state.showManage ?
+                                  <div>
+                                      <input data-record-id={item.id} type="number" className="record-number" onChange={this.changeRecordTrainNumber} placeholder={item.train_number}/><input data-record-id={item.id} type="number"  className="record-number" onChange={this.changeRecordApproachNumber} placeholder={item.approach_number}/>
+                                  </div>
+                                   :
+                                  <div>
+                                      {item.train_number}/{item.approach_number}
+                                  </div>
+                          }
+                          </td>
+                      <td>
+                          {
+                              this.state.showManage ?
+                                  <div>
+                                      <input data-record-id={item.id} type="number" className="record-number" onChange={this.changeWeight} placeholder={item.weight}/><input data-record-id={item.id} type="number"  className="record-number" onChange={this.changeValue} placeholder={item.value}/>
+                                  </div> :
+                                  item.weight > 0 ?
+                              item.weight + "/" + item.value : item.value
+                          }
+                      </td>
+                              {
+                                  this.state.showManage ? <td><a data-record-id={item.id} href="#" onClick={this.removeRecord}>X</a></td> : null
+                              }
                       </tr>
                       })
                   }

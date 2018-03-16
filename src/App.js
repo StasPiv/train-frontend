@@ -26,6 +26,8 @@ class App extends Component {
         this.removeRecord = this.removeRecord.bind(this);
         this.logout = this.logout.bind(this);
         this.deleteType = this.deleteType.bind(this);
+        this.renameType = this.renameType.bind(this);
+        this.changeTypeForRecord = this.changeTypeForRecord.bind(this);
         this.toggleManage = this.toggleManage.bind(this);
         this.toggleStat = this.toggleStat.bind(this);
 
@@ -254,6 +256,33 @@ class App extends Component {
             );
     }
 
+    changeTypeForRecord(e) {
+        let that = this;
+
+        fetch(that.apiUrl + 'records/' + e.target.dataset.recordId,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.state.token
+            },
+            method: 'PATCH',
+            body: JSON.stringify({
+                type: e.target.value
+            })
+        }).then(res => res.json())
+            .then(
+                function(result) {
+                    that.fetchLastRecords();
+                },
+                (error) => {
+                    that.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+    }
+
     nextTrain() {
         console.log('next train', this.state);
         let that = this;
@@ -398,6 +427,35 @@ class App extends Component {
         );
     }
 
+    renameType() {
+        let that = this;
+        that.setState({
+            isLoaded: false
+        });
+
+        fetch(this.apiUrl + 'traintypes/' + document.getElementById('type').value, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.state.token
+            },
+            method: 'PATCH',
+            body: JSON.stringify({
+                title: document.getElementById("train-title-rename").value
+            })
+        }).then(
+            function(result) {
+                that.fetchTypes();
+                that.fetchLastRecords();
+            },
+            (error) => {
+                that.setState({
+                    isLoaded: true,
+                    error
+                });
+            }
+        );
+    }
+
     render() {
         return (
           <div className="App">
@@ -427,8 +485,11 @@ class App extends Component {
                                       }
                                   </select>
                                   {
-                                      this.state.showManage ?
-                                          <input type="button" onClick={this.deleteType} value="Remove"/> :
+                                      this.state.showManage ? <div>
+                                          <input type="button" onClick={this.deleteType} value="Remove"/>
+                                          <input type="text" id="train-title-rename" placeholder="train type title"/>
+                                          <button onClick={this.renameType}>Rename</button>
+                                      </div>:
                                           null
                                   }
                                   <br/>
@@ -459,7 +520,17 @@ class App extends Component {
                       console.log(jsTime, jsDate, jsDate.getFullYear());
                       return <tr>
                           <td><span className="App-date">{jsDate.toLocaleString()}</span></td>
-                      <td>{item.type ? item.type.title : null}</td>
+                      <td>{
+                              this.state.showManage ?
+                                  <select onChange={this.changeTypeForRecord} data-record-id={item.id}>
+                                      {
+                                          this.state.types.map(typeItem => <option selected={item.type && typeItem.id === item.type.id} value={typeItem.id}>{typeItem.title}</option>)
+                                      }
+                                  </select> :
+                              item.type ?
+                              item.type.title :
+                              null
+                          }</td>
                       <td>{item.train_number}/{item.approach_number}</td>
                       <td>{item.weight > 0 ? item.weight + "/" + item.value : item.value}</td>
                               {this.state.showManage ? <td><a data-record-id={item.id} href="#" onClick={this.removeRecord}>X</a></td> : null}

@@ -522,7 +522,7 @@ class App extends Component {
                           <td><span className="App-date">{jsDate.toLocaleString()}</span></td>
                       <td>{
                               this.state.showManage ?
-                                  <select onChange={this.changeTypeForRecord} data-record-id={item.id}>
+                                  <select className="train-type-record-select" onChange={this.changeTypeForRecord} data-record-id={item.id}>
                                       {
                                           this.state.types.map(typeItem => <option selected={item.type && typeItem.id === item.type.id} value={typeItem.id}>{typeItem.title}</option>)
                                       }

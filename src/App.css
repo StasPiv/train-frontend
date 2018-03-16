@@ -79,6 +79,11 @@
   width: 100%;
 }
 
+.App .train-type-record-select {
+  width: 50px;
+  font-size: 10px;
+}
+
 .App .type-title {
   display:block;
   width:100%;

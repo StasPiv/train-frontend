@@ -50,18 +50,18 @@
   font-weight: bold;
 }
 
-.App #last-records {
+.App .last-records {
   font-size: 12px;
   width: 100%;
   table-layout: fixed;
 }
 
-.App #last-records thead {
+.App .last-records thead {
   font-weight: bold;
 }
 
 
-.App #last-records td {
+.App .last-records td {
   word-wrap: break-word;
 }
 

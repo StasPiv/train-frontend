@@ -614,7 +614,7 @@ class App extends Component {
                       <br/>
                       <input disabled={!this.state.isLoaded} id="next-train" onClick={this.nextTrain} type="button" value="NEW TRAIN" />
                       <input disabled={!this.state.isLoaded} id="new-day" onClick={this.newDay} type="button" value="NEW DAY" />
-                          <table id="last-records">
+                          <table className="last-records">
                       <thead>
                       <tr>
                       <td className="App-date">Date</td>
@@ -629,7 +629,6 @@ class App extends Component {
                       this.state.lastRecords.map(item => {
                       let jsTime = Date.parse(item.time);
                       let jsDate = new Date(jsTime);
-                      console.log(jsTime, jsDate, jsDate.getFullYear());
                       return <tr>
                           <td><span className="App-date">{jsDate.toLocaleString()}</span></td>
                       <td>{
@@ -683,7 +682,7 @@ class App extends Component {
               }
               {
                   this.state.isAuth && this.state.showStat ?
-                  <Stat/> :
+                  <Stat types={this.state.types}/> :
                   null
               }
           </div>
